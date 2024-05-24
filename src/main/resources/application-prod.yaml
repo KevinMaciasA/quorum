@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: prod
+  application:
+    name: quorum-api
+  datasource:
+    url: { DB_SOURCE }
+    username: { DB_USERNAME }
+    password: { DB_PASSWORD }
+server:
+  error:
+    include-stacktrace: never

@@ -1,8 +1,11 @@
 package com.quorum.quorumapi.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +29,7 @@ public class PostsController {
   @Autowired
   PostsRepository postsRepository;
 
-  @PostMapping()
+  @PostMapping
   public ResponseEntity<?> post(@RequestBody @Valid PostData data, UriComponentsBuilder uri) {
     var detailedUser = authService.getCurrentUser();
 
@@ -44,5 +47,12 @@ public class PostsController {
     return ResponseEntity
         .created(path)
         .body(new PostResult(result.getTitle(), result.getCreatedAt()));
+  }
+
+  @GetMapping
+  public ResponseEntity<List<PostDetails>> getPosts() {
+    var posts = postsRepository.findAll();
+    var result = posts.stream().map(p -> p.details()).toList();
+    return ResponseEntity.ok().body(result);
   }
 }

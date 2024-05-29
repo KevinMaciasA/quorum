@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.quorum.quorumapi.controllers.PostData;
+import com.quorum.quorumapi.controllers.PostDetails;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -57,5 +58,15 @@ public class Post {
     this.title = data.title();
     this.content = data.content();
     this.author = author;
+  }
+
+  public PostDetails details() {
+    return new PostDetails(
+        title,
+        content,
+        author.getName(),
+        author.getUsername(),
+        status.getName(),
+        createdAt);
   }
 }

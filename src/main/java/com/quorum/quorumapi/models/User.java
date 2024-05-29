@@ -1,21 +1,25 @@
 package com.quorum.quorumapi.models;
 
+import java.time.LocalDateTime;
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.quorum.quorumapi.controllers.RegisterData;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
-@Getter
 @NoArgsConstructor
-@AllArgsConstructor
-public class User {
+public class User implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
@@ -24,4 +28,55 @@ public class User {
   private String email;
   @Column(nullable = false)
   private String password;
+
+  public User(String email, String username, String password) {
+    this.email = email;
+    this.username = username;
+    this.password = password;
+  }
+
+  public User(RegisterData registerData) {
+    this.email = registerData.email();
+    this.username = registerData.username();
+    this.password = registerData.password();
+  }
+
+  public UserData userData() {
+    return new UserData(id, email, username, LocalDateTime.now());
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return null;
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return true;
+  }
+
+  @Override
+  public String getPassword() {
+    return password;
+  }
+
+  @Override
+  public String getUsername() {
+    return email;
+  }
 }

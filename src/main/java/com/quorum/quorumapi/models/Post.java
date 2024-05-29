@@ -3,6 +3,8 @@ package com.quorum.quorumapi.models;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.quorum.quorumapi.controllers.PostData;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,14 +22,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-// CREATE TABLE posts (
-//   id NOT NULL  PRIMARY KEY,
-//   title VARCHAR(255) NOT NULL,
-//   content VARCHAR(1000),
-//   status BOOLEAN,
-//   author author_id NOT NULL
-// )
-
 @Entity
 @Table(name = "posts")
 @Getter
@@ -42,7 +36,7 @@ public class Post {
   private String title;
   @Column(length = 5000)
   private String content;
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   @JoinColumn(name = "status_id", nullable = false)
   private Status status;
   @ManyToOne(fetch = FetchType.LAZY)
@@ -55,6 +49,13 @@ public class Post {
 
   @PrePersist
   protected void onCreate() {
-    createdAt = LocalDateTime.now();
+    this.createdAt = LocalDateTime.now();
+    this.status = Status.of(StatusCode.ACTIVE);
+  }
+
+  public Post(PostData data, User author) {
+    this.title = data.title();
+    this.content = data.content();
+    this.author = author;
   }
 }

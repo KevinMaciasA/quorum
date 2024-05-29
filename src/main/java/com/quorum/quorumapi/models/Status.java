@@ -29,4 +29,8 @@ public class Status {
     this.name = code.toString();
     this.code = code;
   }
+
+  static Status of(StatusCode code) {
+    return new Status(code);
+  }
 }

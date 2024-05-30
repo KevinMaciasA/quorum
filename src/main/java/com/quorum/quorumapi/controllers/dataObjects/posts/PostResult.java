@@ -1,4 +1,4 @@
-package com.quorum.quorumapi.controllers;
+package com.quorum.quorumapi.controllers.dataObjects.posts;
 
 import java.time.LocalDateTime;
 

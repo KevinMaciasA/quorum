@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.quorum.quorumapi.controllers.dataObjects.RegisterData;
+import com.quorum.quorumapi.controllers.dataObjects.login.LoginData;
+import com.quorum.quorumapi.controllers.dataObjects.login.LoginResponse;
 import com.quorum.quorumapi.controllers.services.LoginService;
 import com.quorum.quorumapi.controllers.services.RegisterService;
 import com.quorum.quorumapi.models.UserData;

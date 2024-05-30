@@ -5,9 +5,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import com.quorum.quorumapi.controllers.LoginData;
+import com.quorum.quorumapi.controllers.dataObjects.login.LoginData;
 import com.quorum.quorumapi.models.User;
-// import com.quorum.quorumapi.errors.UsernameNotFoundError;
 import com.quorum.quorumapi.repositories.UsersRepository;
 import com.quorum.quorumapi.security.services.TokenService;
 

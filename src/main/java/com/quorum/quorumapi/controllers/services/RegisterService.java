@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.quorum.quorumapi.controllers.RegisterData;
+import com.quorum.quorumapi.controllers.dataObjects.RegisterData;
 import com.quorum.quorumapi.errors.EmailAlreadyUsedError;
 import com.quorum.quorumapi.models.User;
 import com.quorum.quorumapi.models.UserData;

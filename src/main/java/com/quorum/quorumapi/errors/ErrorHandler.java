@@ -28,4 +28,11 @@ public class ErrorHandler {
     var errorInfo = new ErrorInfo(HttpStatus.BAD_REQUEST, errorMessage);
     return ResponseEntity.badRequest().body(errorInfo);
   }
+
+  @ExceptionHandler(PostNotFoundError.class)
+  public ResponseEntity<ErrorInfo> postNotFoundError(PostNotFoundError err) {
+    final String errorMessage = "There is no post with id " + err.getId();
+    var errorInfo = new ErrorInfo(HttpStatus.BAD_REQUEST, errorMessage);
+    return ResponseEntity.badRequest().body(errorInfo);
+  }
 }

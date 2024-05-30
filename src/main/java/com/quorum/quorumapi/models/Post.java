@@ -3,8 +3,9 @@ package com.quorum.quorumapi.models;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.quorum.quorumapi.controllers.PostData;
-import com.quorum.quorumapi.controllers.PostDetails;
+import com.quorum.quorumapi.controllers.dataObjects.posts.PostData;
+import com.quorum.quorumapi.controllers.dataObjects.posts.PostDetails;
+import com.quorum.quorumapi.controllers.dataObjects.posts.UpdatePostData;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -61,12 +62,15 @@ public class Post {
   }
 
   public PostDetails details() {
-    return new PostDetails(
-        title,
-        content,
-        author.getName(),
-        author.getUsername(),
-        status.getName(),
-        createdAt);
+    return new PostDetails(this);
+  }
+
+  public void update(UpdatePostData data) {
+    if (!data.title().isBlank())
+      title = data.title();
+    if (!data.content().isBlank())
+      content = data.content();
+    if (data.status() != null && data.status() != status.getCode())
+      status = new Status(data.status());
   }
 }

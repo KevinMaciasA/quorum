@@ -40,15 +40,11 @@ public class TokenService {
         .sign(algorithm);
   }
 
-  public String validateTokenAndGetEmail(String token) {
-    try {
-      JWTVerifier verifier = JWT.require(algorithm)
-          .withIssuer(jwtConfig.getIssuer())
-          .build();
-      DecodedJWT jwt = verifier.verify(token);
-      return jwt.getSubject();
-    } catch (JWTVerificationException exception) {
-      throw new RuntimeException("Invalid JWT token");
-    }
+  public String validateTokenAndGetEmail(String token) throws JWTVerificationException {
+    JWTVerifier verifier = JWT.require(algorithm)
+        .withIssuer(jwtConfig.getIssuer())
+        .build();
+    DecodedJWT jwt = verifier.verify(token);
+    return jwt.getSubject();
   }
 }

@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.quorum.quorumapi.controllers.RegisterData;
+import com.quorum.quorumapi.controllers.dataObjects.RegisterData;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

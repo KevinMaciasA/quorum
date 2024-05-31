@@ -7,6 +7,14 @@ spring:
     url: { DB_SOURCE }
     username: { DB_USERNAME }
     password: { DB_PASSWORD }
+  jpa:
+    hibernate:
+    ddl-auto: update
 server:
   error:
     include-stacktrace: never
+jwt:
+  secret: { JWT_SECRET }
+  issuer: Quorum
+  expirationInHours: 12
+  timeOffset: -3

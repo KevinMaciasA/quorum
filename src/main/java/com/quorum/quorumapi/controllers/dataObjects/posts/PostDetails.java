@@ -19,6 +19,7 @@ public class PostDetails {
     private String authorEmail;
     private String status;
     private LocalDateTime createdAt;
+    private LocalDateTime modificationDate;
 
     public PostDetails(Post post) {
         this.id = post.getId();
@@ -28,5 +29,6 @@ public class PostDetails {
         this.authorEmail = post.getAuthor().getUsername();
         this.status = post.getStatus().getName();
         this.createdAt = post.getCreatedAt();
+        this.modificationDate = post.getModificationDate();
     }
 }

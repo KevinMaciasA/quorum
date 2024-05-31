@@ -12,6 +12,10 @@ public enum StatusCode {
     this.name = name;
   }
 
+  public boolean equals(String name) {
+    return name.equalsIgnoreCase(name);
+  }
+
   @Override
   public String toString() {
     return name;

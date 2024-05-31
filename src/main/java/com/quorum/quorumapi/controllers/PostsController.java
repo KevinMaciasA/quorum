@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.quorum.quorumapi.controllers.dataObjects.posts.PostData;
 import com.quorum.quorumapi.controllers.dataObjects.posts.PostDetails;
-import com.quorum.quorumapi.controllers.dataObjects.posts.PostResult;
 import com.quorum.quorumapi.controllers.dataObjects.posts.UpdatePostData;
 import com.quorum.quorumapi.errors.ErrorInfo;
 import com.quorum.quorumapi.errors.PostDuplicationError;
@@ -56,7 +56,7 @@ public class PostsController {
     var path = uri.path("posts/{id}").buildAndExpand(result.getId()).toUri();
     return ResponseEntity
         .created(path)
-        .body(new PostResult(result.getTitle(), result.getCreatedAt()));
+        .body(result.details());
   }
 
   @GetMapping
@@ -77,12 +77,19 @@ public class PostsController {
 
   @PutMapping("/{id}")
   @Transactional
-  public ResponseEntity<PostDetails> updatePostById(@PathVariable Integer id, UpdatePostData data) {
+  public ResponseEntity<PostDetails> updatePostById(@PathVariable Integer id, @RequestBody UpdatePostData data) {
     if (!postsRepository.existsById(id))
       throw new PostNotFoundError(id);
 
     var post = postsRepository.getReferenceById(id);
     post.update(data);
     return ResponseEntity.ok(post.details());
+  }
+
+  @DeleteMapping("/{id}")
+  @Transactional
+  public ResponseEntity<Void> deletePostById(@PathVariable Integer id) {
+    postsRepository.deleteById(id);
+    return ResponseEntity.noContent().build();
   }
 }

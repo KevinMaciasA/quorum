@@ -48,6 +48,8 @@ public class Post {
   private List<Comment> comments;
   @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
+  @Column(name = "modification_date")
+  private LocalDateTime modificationDate;
 
   @PrePersist
   protected void onCreate() {
@@ -66,11 +68,38 @@ public class Post {
   }
 
   public void update(UpdatePostData data) {
-    if (!data.title().isBlank())
-      title = data.title();
-    if (!data.content().isBlank())
-      content = data.content();
-    if (data.status() != null && data.status() != status.getCode())
-      status = new Status(data.status());
+    boolean somethingChange = false;
+    somethingChange |= updateTitle(data);
+    somethingChange |= updateContent(data);
+    somethingChange |= updateStatus(data);
+
+    if (somethingChange)
+      modificationDate = LocalDateTime.now();
+
+  }
+
+  private boolean updateTitle(UpdatePostData data) {
+    if (data.title() == null
+        || data.title().isBlank()
+        || data.title().equals(this.title))
+      return false;
+    title = data.title();
+    return true;
+  }
+
+  private boolean updateContent(UpdatePostData data) {
+    if (data.content() == null
+        || data.content().isBlank()
+        || data.content().equals(this.content))
+      return false;
+    content = data.content();
+    return true;
+  }
+
+  private boolean updateStatus(UpdatePostData data) {
+    if (data.status() == null || status.getCode().equals(data.status()))
+      return false;
+    status = new Status(data.status());
+    return true;
   }
 }

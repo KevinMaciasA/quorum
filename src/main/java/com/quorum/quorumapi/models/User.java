@@ -2,14 +2,19 @@ package com.quorum.quorumapi.models;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.quorum.quorumapi.controllers.dataObjects.RegisterData;
+import com.quorum.quorumapi.controllers.dataObjects.user.UserData;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,6 +33,9 @@ public class User implements UserDetails {
   private String email;
   @Column(nullable = false)
   private String password;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private Roles role = Roles.USER;
 
   public User(String email, String username, String password) {
     this.email = email;
@@ -45,9 +53,13 @@ public class User implements UserDetails {
     return new UserData(id, email, username, LocalDateTime.now());
   }
 
+  public Integer getId() {
+    return id;
+  }
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    return List.of(new SimpleGrantedAuthority(role.name()));
   }
 
   @Override

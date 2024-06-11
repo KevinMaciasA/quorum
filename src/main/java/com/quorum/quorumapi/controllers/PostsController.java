@@ -21,6 +21,7 @@ import com.quorum.quorumapi.controllers.dataObjects.posts.PostData;
 import com.quorum.quorumapi.controllers.dataObjects.posts.PostDetails;
 import com.quorum.quorumapi.controllers.dataObjects.posts.UpdatePostData;
 import com.quorum.quorumapi.errors.ErrorInfo;
+import com.quorum.quorumapi.errors.InvalidCredentials;
 import com.quorum.quorumapi.errors.PostDuplicationError;
 import com.quorum.quorumapi.errors.PostNotFoundError;
 import com.quorum.quorumapi.models.Post;
@@ -82,6 +83,10 @@ public class PostsController {
       throw new PostNotFoundError(id);
 
     var post = postsRepository.getReferenceById(id);
+
+    if (!authService.isCurrentUser(post.getAuthor().getId()))
+      throw new InvalidCredentials();
+
     post.update(data);
     return ResponseEntity.ok(post.details());
   }
@@ -89,7 +94,16 @@ public class PostsController {
   @DeleteMapping("/{id}")
   @Transactional
   public ResponseEntity<Void> deletePostById(@PathVariable Integer id) {
-    postsRepository.deleteById(id);
+    if (!postsRepository.existsById(id))
+      throw new PostNotFoundError(id);
+
+    var post = postsRepository.getReferenceById(id);
+    var authorId = post.getAuthor().getId();
+
+    if (!authService.isCurrentUser(authorId) && !authService.isMod(authorId))
+      throw new InvalidCredentials();
+
+    postsRepository.delete(post);
     return ResponseEntity.noContent().build();
   }
 }

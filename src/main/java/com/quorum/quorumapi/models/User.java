@@ -1,6 +1,5 @@
 package com.quorum.quorumapi.models;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -50,16 +49,24 @@ public class User implements UserDetails {
   }
 
   public UserData userData() {
-    return new UserData(id, email, username, LocalDateTime.now());
+    return new UserData(id, email, username);
   }
 
   public Integer getId() {
     return id;
   }
 
+  public User update(String username, String password) {
+    if (username != null && !username.isBlank())
+      this.username = username;
+    if (password != null && !password.isBlank())
+      this.password = password;
+    return this;
+  }
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of(new SimpleGrantedAuthority(role.name()));
+    return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
   }
 
   @Override

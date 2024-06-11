@@ -35,4 +35,18 @@ public class ErrorHandler {
     var errorInfo = new ErrorInfo(HttpStatus.BAD_REQUEST, errorMessage);
     return ResponseEntity.badRequest().body(errorInfo);
   }
+
+  @ExceptionHandler(UserNotFoundError.class)
+  public ResponseEntity<ErrorInfo> userNotFoundError(UserNotFoundError err) {
+    final String errorMessage = "User with id " + err.getId() + "was not found";
+    var errorInfo = new ErrorInfo(HttpStatus.BAD_REQUEST, errorMessage);
+    return ResponseEntity.badRequest().body(errorInfo);
+  }
+
+  @ExceptionHandler(InvalidCredentials.class)
+  public ResponseEntity<ErrorInfo> invalidCredential(InvalidCredentials err) {
+    final String errorMessage = "Current user can't do that, invalid authorization";
+    var errorInfo = new ErrorInfo(HttpStatus.UNAUTHORIZED, errorMessage);
+    return ResponseEntity.badRequest().body(errorInfo);
+  }
 }

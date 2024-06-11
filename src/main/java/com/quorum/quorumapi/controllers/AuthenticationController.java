@@ -10,9 +10,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.quorum.quorumapi.controllers.dataObjects.RegisterData;
 import com.quorum.quorumapi.controllers.dataObjects.login.LoginData;
 import com.quorum.quorumapi.controllers.dataObjects.login.LoginResponse;
+import com.quorum.quorumapi.controllers.dataObjects.user.UserData;
 import com.quorum.quorumapi.controllers.services.LoginService;
 import com.quorum.quorumapi.controllers.services.RegisterService;
-import com.quorum.quorumapi.models.UserData;
 
 import jakarta.validation.Valid;
 

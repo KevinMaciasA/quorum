@@ -2,6 +2,8 @@ package com.quorum.quorumapi.models;
 
 import java.time.LocalDateTime;
 
+import com.quorum.quorumapi.controllers.dataObjects.comments.CommentDetail;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -37,6 +39,16 @@ public class Comment {
   private User author;
   @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
+
+  public Comment(Post post, User author, String content) {
+    this.post = post;
+    this.author = author;
+    this.content = content;
+  }
+
+  public CommentDetail details() {
+    return new CommentDetail(this);
+  }
 
   @PrePersist
   protected void onCreate() {

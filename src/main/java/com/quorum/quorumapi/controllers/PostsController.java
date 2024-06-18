@@ -47,7 +47,7 @@ public class PostsController {
     if (detailedUser == null)
       return ResponseEntity
           .status(HttpStatus.UNAUTHORIZED)
-          .body(new ErrorInfo(HttpStatus.UNAUTHORIZED, "User not authenticated"));
+          .body(new ErrorInfo(HttpStatus.UNAUTHORIZED.value(), "User not authenticated"));
 
     if (postsRepository.existsByTitleAndContentIgnoreCase(data.title(), data.content()))
       throw new PostDuplicationError();

@@ -1,7 +1,5 @@
 package com.quorum.quorumapi.errors;
 
-import org.springframework.http.HttpStatus;
-
-public record ErrorInfo(HttpStatus errorCode, String errorMessage) {
+public record ErrorInfo(Integer errorCode, String errorMessage) {
 
 }

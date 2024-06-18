@@ -11,6 +11,7 @@ users can register, login, and manage posts. The application is made with Java S
 - [Endpoints](#endpoints)
   - [User Endpoints](#user-endpoints)
   - [Post Endpoints](#post-endpoints)
+  - [Comments Endpoints](#comments-endpoints)
 - [Running the Application](#running-the-application)
 - [License](#license)
 
@@ -102,7 +103,45 @@ Get All Posts
 - Response:
 
 ```json
-TODO: add pagination response
+{
+  "content": [
+    {
+      "id": 1,
+      "title": "Title of the post",
+      "content": "Let me show you what is new",
+      "authorName": "Kevin",
+      "authorEmail": "1@quorum.com",
+      "status": "Resolved",
+      "createdAt": "20XX-XX-XXT12:00:00",
+      "modificationDate": "20XX-XX-XXT18:00:00"
+    } ...
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 10,
+    "sort": {
+      "unsorted": false,
+      "empty": false,
+      "sorted": true
+    },
+    "offset": 0,
+    "unpaged": false,
+    "paged": true
+  },
+  "last": true,
+  "totalElements": 1,
+  "totalPages": 1,
+  "size": 10,
+  "number": 0,
+  "sort": {
+    "unsorted": false,
+    "empty": false,
+    "sorted": true
+  },
+  "first": true,
+  "numberOfElements": 1,
+  "empty": false
+}
 ```
 
 Create Post
@@ -170,6 +209,52 @@ Delete Post
 - Method: `DELETE`
 - Headers:
   - Authorization: `Bearer <jwt_token>`
+
+### Comments Endpoints
+
+Add a comment
+
+- URL: `/posts/{post_id}/comments`
+- Method: `POST`
+- Headers:
+  - Authorization: `Bearer <jwt_token>`
+- Request Body:
+
+```json
+{
+  "content": "Nice post, Anon"
+}
+```
+
+- Response:
+
+```json
+{
+  "id": 1,
+  "authorId": "1@quorum.com",
+  "createdAt": "20XX-XX-XXT12:00:00.00"
+}
+```
+
+Show comments
+
+- URL: `/posts/{post_id}/comments`
+- Method: `GET`
+- Headers:
+  - Authorization: `Bearer <jwt_token>`
+- Response:
+
+```json
+[
+    {
+        "id": 1,
+        "content": "Nice post, Anon",
+        "authorName": "Kevin",
+        "authorEmail": "1@quorum.com",
+        "createdAt": "20XX-XX-XXT12:00:00"
+    }, ...
+]
+```
 
 ## Running the Application
 
